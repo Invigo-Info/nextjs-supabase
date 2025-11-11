@@ -24,10 +24,10 @@ export default function Navigation() {
   }, [])
 
   const navLinks = [
-    { href: '#features', label: 'Features' },
-    { href: '#how-it-works', label: 'How It Works' },
-    { href: '#pricing', label: 'Pricing' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#features', label: 'Features', isHash: true },
+    { href: '#how-it-works', label: 'How It Works', isHash: true },
+    { href: '#pricing', label: 'Pricing', isHash: true },
+    { href: '/contact', label: 'Contact', isHash: false },
   ]
 
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
@@ -66,16 +66,28 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
-              >
-                {link.label}
-              </motion.a>
+              link.isHash ? (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleScrollTo(e, link.href)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
+                >
+                  {link.label}
+                </motion.a>
+              ) : (
+                <Link key={link.href} href={link.href}>
+                  <motion.span
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="text-gray-700 hover:text-primary-600 transition-colors font-medium cursor-pointer inline-block"
+                  >
+                    {link.label}
+                  </motion.span>
+                </Link>
+              )
             ))}
           </div>
 
@@ -121,17 +133,28 @@ export default function Navigation() {
       >
         <div className="px-4 py-6 space-y-4">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="block text-gray-700 hover:text-primary-600 transition-colors font-medium py-2"
-              onClick={(e) => {
-                handleScrollTo(e, link.href)
-                setIsOpen(false)
-              }}
-            >
-              {link.label}
-            </a>
+            link.isHash ? (
+              <a
+                key={link.href}
+                href={link.href}
+                className="block text-gray-700 hover:text-primary-600 transition-colors font-medium py-2"
+                onClick={(e) => {
+                  handleScrollTo(e, link.href)
+                  setIsOpen(false)
+                }}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-gray-700 hover:text-primary-600 transition-colors font-medium py-2"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </Link>
+            )
           ))}
           <div className="pt-4 space-y-3 border-t border-gray-200">
             <Link href="/login" className="block">
