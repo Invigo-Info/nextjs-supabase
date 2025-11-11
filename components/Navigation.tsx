@@ -30,6 +30,14 @@ export default function Navigation() {
     { href: '#contact', label: 'Contact' },
   ]
 
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault()
+    const element = document.querySelector(targetId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
     <motion.nav
       style={{ backgroundColor }}
@@ -61,6 +69,7 @@ export default function Navigation() {
               <motion.a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleScrollTo(e, link.href)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-gray-700 hover:text-primary-600 transition-colors font-medium"
@@ -116,7 +125,10 @@ export default function Navigation() {
               key={link.href}
               href={link.href}
               className="block text-gray-700 hover:text-primary-600 transition-colors font-medium py-2"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => {
+                handleScrollTo(e, link.href)
+                setIsOpen(false)
+              }}
             >
               {link.label}
             </a>
